@@ -10,6 +10,9 @@ export function Container({
 	showResetButton = false,
 	disableResetButton = false,
 	onReset,
+	borderColor = "#5750E3",
+	innerBackgroundColor = "white",
+	outerBackgroundColor = "white",
 	...props 
 }) {
 	const baseClasses = [
@@ -20,7 +23,6 @@ export function Container({
 		maxWidth,
 		"mx-auto",
 		"px-2",
-		"bg-white",
 		"rounded-lg",
 		"flex",
 		"flex-col",
@@ -37,10 +39,10 @@ export function Container({
 	const containerClasses = `${baseClasses.join(" ")} ${className}`.trim();
 
 	return (
-		<div className={containerClasses} {...props}>
+		<div className={containerClasses} style={{ backgroundColor: outerBackgroundColor }} {...props}>
 			<div className="p-4 w-[100%] h-[100%]">
 				<div className="flex justify-between items-center mb-4">
-					<h2 className="text-[#5750E3] text-sm font-medium select-none">{text}</h2>
+					<h2 className="text-sm font-medium select-none" style={{ color: borderColor }}>{text}</h2>
 					{showResetButton && (
 						<button 
 							className={`text-sm px-3 py-1 rounded border transition-colors ${
@@ -57,7 +59,16 @@ export function Container({
 					)}
 				</div>
 				<div className="w-full h-[90%]">
-					<div className="w-full bg-white border border-[#5750E3]/30 rounded-md relative overflow-hidden" style={{ minHeight: '420px', height: '100%', width: '100%' }}>
+					<div 
+						className="w-full border rounded-md relative overflow-hidden" 
+						style={{ 
+							minHeight: '420px', 
+							height: '100%', 
+							width: '100%',
+							backgroundColor: innerBackgroundColor,
+							borderColor: `${borderColor}4D` // 4D adds 30% opacity like the original /30
+						}}
+					>
 						{children}
 					</div>
 				</div>

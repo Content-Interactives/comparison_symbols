@@ -1,0 +1,36 @@
+/* Alligator Top Jaw Animation - rotates down and up, fixed on bottom left */
+@keyframes topJawRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Alligator Bottom Jaw Animation - rotates up and down, fixed on top left */
+@keyframes bottomJawRotate {
+    0% {
+        transform: rotate(0deg) translateY(-12px);
+    }
+    50% {
+        transform: rotate(-15deg) translateY(-8px);
+    }
+    100% {
+        transform: rotate(0deg) translateY(-12px);
+    }
+}
+
+/* Classes to apply the animations */
+.alligator-top-jaw {
+    animation: topJawRotate 1s ease-in-out infinite;
+    transform-origin: bottom left;
+}
+
+.alligator-bottom-jaw {
+    animation: bottomJawRotate 1s ease-in-out infinite;
+    transform-origin: top left;
+}
