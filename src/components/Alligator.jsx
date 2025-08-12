@@ -13,11 +13,14 @@ const Alligator = ({ animate, sadigator, direction = 'right', moveDirection = nu
         
         const movementClass = getMovementClass();
         
+        // Add direction-based flipping when not moving
+        const directionClass = !moveDirection && direction === 'left' ? 'scale-x-[-1]' : '';
+        
         return (
             <>
                 {/* Alligator Container */}
                 <div 
-                    className={`absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transition-transform duration-300 ${movementClass}`}
+                    className={`absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transition-transform duration-300 ${movementClass} ${directionClass}`}
                 >
                 {/* Top Of Alligator */}
                 <div className={`${animate ? 'alligator-top-jaw' : ''} z-10`}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Apples.css';
 
 const Apples = ({ 
   count = 5, 
@@ -58,12 +59,10 @@ const Apples = ({
   if (onClick && !disabled && !isAnimating && !fadeOut && !isSelected) {
     innerClasses.push(
       "cursor-pointer",
-      "hover:bg-red-50",
-      "hover:scale-105",
       "active:scale-95",
       "border-2",
       "border-transparent",
-      "hover:border-red-200"
+      "hover-desktop-only" // Custom class for desktop-only hover effects
     );
   }
 

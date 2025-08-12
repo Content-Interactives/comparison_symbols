@@ -1,0 +1,18 @@
+/* Desktop-only hover effects for apple containers */
+/* This ensures hover effects only appear on devices that support hover (desktop/laptop) */
+/* and not on touch devices like mobile phones and tablets */
+
+@media (hover: hover) {
+  .hover-desktop-only:hover {
+    background-color: rgb(254 242 242); /* red-50 */
+    transform: scale(1.05); /* scale-105 */
+    border-color: rgb(254 202 202); /* red-200 */
+  }
+}
+
+/* For devices that don't support hover (mobile/touch), no hover effects are applied */
+@media (hover: none) {
+  .hover-desktop-only:hover {
+    /* No hover effects on touch devices */
+  }
+} 
