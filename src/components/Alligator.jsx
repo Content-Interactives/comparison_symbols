@@ -1,8 +1,24 @@
-const Alligator = ({ animate, sadigator }) => {
+const Alligator = ({ animate, sadigator, direction = 'right', moveDirection = null }) => {
+        // Get movement class based on moveDirection
+        const getMovementClass = () => {
+                if (!moveDirection) return '';
+                
+                if (moveDirection === 'left') {
+                        return 'alligator-move-left';
+                } else if (moveDirection === 'right') {
+                        return 'alligator-move-right';
+                }
+                return '';
+        };
+        
+        const movementClass = getMovementClass();
+        
         return (
             <>
                 {/* Alligator Container */}
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+                <div 
+                    className={`absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transition-transform duration-300 ${movementClass}`}
+                >
                 {/* Top Of Alligator */}
                 <div className={`${animate ? 'alligator-top-jaw' : ''} z-10`}>
                         {/* Sad Eyebrows */}
