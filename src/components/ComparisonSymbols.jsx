@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+
+// Audio Import
+import chipperSound from './Chipper 0.mp3';
 
 // Hover detection system
 function watchForHover() {
@@ -93,6 +96,9 @@ const ComparisonSymbols = () => {
                         origin: { y: 0.6 }
                 });
         };
+        
+        // Audio reference
+        const audioRef = useRef(new Audio(chipperSound));
         
         // Generate random apple counts on component mount
         useEffect(() => {
@@ -219,11 +225,21 @@ const ComparisonSymbols = () => {
                 }, 3000); // 3 seconds for animation
         };
         
+        // Function to handle sound button click
+        const handleSoundClick = () => {
+                audioRef.current.currentTime = 0; // Reset to beginning
+                audioRef.current.play().catch(error => {
+                        console.log('Audio playback failed:', error);
+                });
+        };
+        
         return (
                 <Container 
                         text="Comparison Symbol Practice" 
                         showResetButton={false}
                         borderColor="#FF7B00"
+                        showSoundButton={true}
+                        onSound={handleSoundClick}
                 >
                         <div className='text-center text-sm text-gray-500 p-5'>
                                 Comparison Alligator is hungry! Click the side with more apples to feed him. If you click the side with less apples, he will be sad.
