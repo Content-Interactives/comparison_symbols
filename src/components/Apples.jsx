@@ -9,10 +9,11 @@ const Apples = ({
   disabled = false,
   isAnimating = false,
   side = "left", // left or right, for accessibility
-  fadeOut = false // Controls fade-out animation
+  fadeOut = false, // Controls fade-out animation
+  isSelected = false // Track if this side was selected
 }) => {
   // Debug logging
-  console.log(`Apples ${side}: fadeOut=${fadeOut}, count=${count}`);
+  console.log(`Apples ${side}: fadeOut=${fadeOut}, count=${count}, isSelected=${isSelected}`);
   
   // Create array of apples based on count
   const apples = Array.from({ length: count }, (_, index) => index);
@@ -53,7 +54,8 @@ const Apples = ({
   }
 
   // Add interactive classes if clickable and not fading out
-  if (onClick && !disabled && !isAnimating && !fadeOut) {
+  // Don't add selection styling if isSelected is true (prevents mobile selection persistence)
+  if (onClick && !disabled && !isAnimating && !fadeOut && !isSelected) {
     innerClasses.push(
       "cursor-pointer",
       "hover:bg-red-50",
@@ -65,8 +67,8 @@ const Apples = ({
     );
   }
 
-  // Add disabled styling (but not when fading out)
-  if ((disabled || isAnimating) && !fadeOut) {
+  // Add disabled styling (but not when fading out or selected)
+  if ((disabled || isAnimating) && !fadeOut && !isSelected) {
     innerClasses.push("opacity-50");
   }
 

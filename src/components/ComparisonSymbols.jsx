@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import confetti from 'canvas-confetti';
 
 // Assets Imports
 import FlexiTeacher from '../assets/All Flexi Poses/PNG/Flexi_Teacher.png';
@@ -35,6 +36,7 @@ const ComparisonSymbols = () => {
         const [alligatorMoveDirection, setAlligatorMoveDirection] = useState(null); // 'left', 'right', or null
         const [fadeApples, setFadeApples] = useState(false); // Controls apple fade-out animation
         const [currentSuccessMessage, setCurrentSuccessMessage] = useState(''); // Store the current success message
+        const [selectedSide, setSelectedSide] = useState(null); // Track which side was selected ('left', 'right', or null)
         
         // Set of good response messages
         const successMessages = [
@@ -55,15 +57,19 @@ const ComparisonSymbols = () => {
                 return successMessages[randomIndex];
         };
         
+        // Function to trigger confetti animation
+        const triggerConfetti = () => {
+                confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                });
+        };
+        
         // Generate random apple counts on component mount
         useEffect(() => {
                 generateRandomCounts();
         }, []);
-        
-        // Debug effect to monitor animation state
-        useEffect(() => {
-                console.log('Animation state changed:', { fadeApples, alligatorMoveDirection });
-        }, [fadeApples, alligatorMoveDirection]);
         
         const generateRandomCounts = () => {
                 let left, right;
@@ -87,6 +93,7 @@ const ComparisonSymbols = () => {
                 if (isAnimating) return; // Prevent clicks during animation
                 
                 setIsAnimating(true);
+                setSelectedSide('left'); // Mark left side as selected
                 const isCorrectAnswer = leftAppleCount > rightAppleCount;
                 
                 if (isCorrectAnswer) {
@@ -99,9 +106,11 @@ const ComparisonSymbols = () => {
                         setAlligatorMoveDirection('left'); // Move towards left apples
                         setCurrentSuccessMessage(getRandomSuccessMessage()); // Set random success message
                         
+                        // Trigger confetti animation
+                        triggerConfetti();
+                        
                         // Start apple fade-out when alligator reaches them (after movement animation)
                         setTimeout(() => {
-                                console.log('Setting fadeApples to true for left side');
                                 setFadeApples(true);
                         }, 1000); // 1 second to match alligator movement duration
                 } else {
@@ -121,6 +130,7 @@ const ComparisonSymbols = () => {
                         setShowGreatJob(false);
                         setAlligatorMoveDirection(null);
                         setFadeApples(false);
+                        setSelectedSide(null); // Deselect after animation ends
                         
                         // Regenerate random counts if the correct answer was clicked
                         if (isCorrectAnswer) {
@@ -134,6 +144,7 @@ const ComparisonSymbols = () => {
                 if (isAnimating) return; // Prevent clicks during animation
                 
                 setIsAnimating(true);
+                setSelectedSide('right'); // Mark right side as selected
                 const isCorrectAnswer = rightAppleCount > leftAppleCount;
                 
                 if (isCorrectAnswer) {
@@ -146,9 +157,11 @@ const ComparisonSymbols = () => {
                         setAlligatorMoveDirection('right'); // Move towards right apples
                         setCurrentSuccessMessage(getRandomSuccessMessage()); // Set random success message
                         
+                        // Trigger confetti animation
+                        triggerConfetti();
+                        
                         // Start apple fade-out when alligator reaches them (after movement animation)
                         setTimeout(() => {
-                                console.log('Setting fadeApples to true for right side');
                                 setFadeApples(true);
                         }, 1000); // 1 second to match alligator movement duration
                 } else {
@@ -168,6 +181,7 @@ const ComparisonSymbols = () => {
                         setShowGreatJob(false);
                         setAlligatorMoveDirection(null);
                         setFadeApples(false);
+                        setSelectedSide(null); // Deselect after animation ends
                         
                         // Regenerate random counts if the correct answer was clicked
                         if (isCorrectAnswer) {
@@ -204,6 +218,7 @@ const ComparisonSymbols = () => {
                                         side="left"
                                         isAnimating={isAnimating}
                                         fadeOut={fadeApples && alligatorMoveDirection === 'left'}
+                                        isSelected={selectedSide === 'left'}
                                 />
                                 <Apples 
                                         count={rightAppleCount} 
@@ -212,6 +227,7 @@ const ComparisonSymbols = () => {
                                         side="right"
                                         isAnimating={isAnimating}
                                         fadeOut={fadeApples && alligatorMoveDirection === 'right'}
+                                        isSelected={selectedSide === 'right'}
                                 />
                         </div>
 
