@@ -66,8 +66,8 @@ const Apples = ({
   }
 
   // Add interactive classes if clickable and not fading out
-  // Don't add selection styling if isSelected is true (prevents mobile selection persistence)
-  if (onClick && !disabled && !isAnimating && !fadeOut && !isSelected) {
+  // Allow hover effects even when selected (for after animation ends)
+  if (onClick && !disabled && !isAnimating && !fadeOut) {
     innerClasses.push(
       "cursor-pointer",
       "active:scale-95",
@@ -77,13 +77,13 @@ const Apples = ({
     );
   }
 
-  // Add disabled styling (but not when fading out or selected)
-  if ((disabled || isAnimating) && !fadeOut && !isSelected) {
+  // Add disabled styling (but not when fading out)
+  if ((disabled || isAnimating) && !fadeOut) {
     innerClasses.push("opacity-50");
   }
 
-  // Force remove any active state styling when selected or animating
-  if (isSelected || isAnimating || fadeOut) {
+  // Force remove any active state styling when animating or fading out
+  if (isAnimating || fadeOut) {
     innerClasses.push(
       "!bg-transparent",
       "!border-transparent",
@@ -101,8 +101,8 @@ const Apples = ({
         onClick={handleClick}
         onMouseEnter={() => onHover && !isAnimating && onHover()}
         onTouchEnd={(e) => {
-          // Force remove any active state on touch end for mobile
-          if (isSelected || isAnimating || fadeOut) {
+          // Force remove any active state on touch end for mobile during animation
+          if (isAnimating || fadeOut) {
             e.currentTarget.style.backgroundColor = 'transparent';
             e.currentTarget.style.borderColor = 'transparent';
             e.currentTarget.style.transform = 'scale(1)';

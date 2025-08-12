@@ -15,4 +15,18 @@
   .hover-desktop-only:hover {
     /* No hover effects on touch devices */
   }
+}
+
+/* Ensure selected state doesn't interfere with hover effects */
+.selected.hover-desktop-only:hover {
+  background-color: rgb(254 242 242) !important; /* red-50 */
+  transform: scale(1.05) !important; /* scale-105 */
+  border-color: rgb(254 202 202) !important; /* red-200 */
+}
+
+/* Reset selected state styling when not animating */
+.selected:not(.animating):not(.fading) {
+  background-color: transparent;
+  border-color: transparent;
+  transform: scale(1);
 } 
