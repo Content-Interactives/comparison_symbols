@@ -1,4 +1,5 @@
 import React from 'react';
+import './Apples.css';
 
 const Apples = ({ 
   count = 5, 
@@ -40,8 +41,21 @@ const Apples = ({
     "p-1",
     "rounded-lg",
     "select-none",
-    "z-[1000]"
+    "z-[1000]",
+    "touch-manipulation", // Prevents mobile zoom and improves touch handling
+    "apple-container" // Base class for CSS targeting
   ];
+
+  // Add state-specific classes for CSS targeting
+  if (isSelected) {
+    innerClasses.push("selected");
+  }
+  if (isAnimating) {
+    innerClasses.push("animating");
+  }
+  if (fadeOut) {
+    innerClasses.push("fading");
+  }
 
   // Add fade-out animation class with higher priority
   if (fadeOut) {
@@ -61,13 +75,24 @@ const Apples = ({
       "active:scale-95",
       "border-2",
       "border-transparent",
-      "hover:border-red-200"
+      "hover:border-red-200",
+      "active:bg-red-50",
+      "active:border-red-200"
     );
   }
 
   // Add disabled styling (but not when fading out or selected)
   if ((disabled || isAnimating) && !fadeOut && !isSelected) {
     innerClasses.push("opacity-50");
+  }
+
+  // Force remove any active state styling when selected or animating
+  if (isSelected || isAnimating || fadeOut) {
+    innerClasses.push(
+      "!bg-transparent",
+      "!border-transparent",
+      "!scale-100"
+    );
   }
 
   const containerClasses = `${baseClasses.join(" ")} ${className}`.trim();
@@ -79,6 +104,14 @@ const Apples = ({
         className={innerContainerClasses}
         onClick={handleClick}
         onMouseEnter={() => onHover && !isAnimating && onHover()}
+        onTouchEnd={(e) => {
+          // Force remove any active state on touch end for mobile
+          if (isSelected || isAnimating || fadeOut) {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.borderColor = 'transparent';
+            e.currentTarget.style.transform = 'scale(1)';
+          }
+        }}
         role={onClick ? "button" : undefined}
         tabIndex={onClick && !disabled && !isAnimating ? 0 : undefined}
         onKeyDown={(e) => {

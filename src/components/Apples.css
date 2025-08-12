@@ -1,0 +1,41 @@
+/* Apples component specific styles */
+
+/* Prevent mobile devices from maintaining active state */
+.apple-container {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Force remove active state on mobile after animation */
+.apple-container.selected,
+.apple-container.animating,
+.apple-container.fading {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  transform: scale(1) !important;
+}
+
+/* Prevent any hover/active states when selected or animating */
+.apple-container.selected:hover,
+.apple-container.animating:hover,
+.apple-container.fading:hover {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  transform: scale(1) !important;
+}
+
+/* Mobile-specific active state prevention */
+@media (hover: none) and (pointer: coarse) {
+  .apple-container.selected:active,
+  .apple-container.animating:active,
+  .apple-container.fading:active {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    transform: scale(1) !important;
+  }
+} 
