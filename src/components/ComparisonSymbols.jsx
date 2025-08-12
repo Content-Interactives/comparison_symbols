@@ -1,6 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 
+// Hover detection system
+function watchForHover() {
+  // lastTouchTime is used for ignoring emulated mousemove events
+  let lastTouchTime = 0
+
+  function enableHover() {
+    if (new Date() - lastTouchTime < 500) return
+    document.body.classList.add('hasHover')
+  }
+
+  function disableHover() {
+    document.body.classList.remove('hasHover')
+  }
+
+  function updateLastTouchTime() {
+    lastTouchTime = new Date()
+  }
+
+  document.addEventListener('touchstart', updateLastTouchTime, true)
+  document.addEventListener('touchstart', disableHover, true)
+  document.addEventListener('mousemove', enableHover, true)
+
+  enableHover()
+}
+
+// Initialize hover detection
+watchForHover()
+
 // Assets Imports
 import FlexiTeacher from '../assets/All Flexi Poses/PNG/Flexi_Teacher.png';
 import FlexiPoint from '../assets/All Flexi Poses/PNG/Flexi_Point.png';
