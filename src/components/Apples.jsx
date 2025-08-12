@@ -12,8 +12,6 @@ const Apples = ({
   fadeOut = false, // Controls fade-out animation
   isSelected = false // Track if this side was selected
 }) => {
-  // Debug logging
-  console.log(`Apples ${side}: fadeOut=${fadeOut}, count=${count}, isSelected=${isSelected}`);
   
   // Create array of apples based on count
   const apples = Array.from({ length: count }, (_, index) => index);
