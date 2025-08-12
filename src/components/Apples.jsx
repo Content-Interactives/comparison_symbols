@@ -13,8 +13,6 @@ const Apples = ({
   fadeOut = false, // Controls fade-out animation
   isSelected = false // Track if this side was selected
 }) => {
-  // Debug logging
-  console.log(`Apples ${side}: fadeOut=${fadeOut}, count=${count}, isSelected=${isSelected}`);
   
   // Create array of apples based on count
   const apples = Array.from({ length: count }, (_, index) => index);
@@ -43,8 +41,21 @@ const Apples = ({
     "p-1",
     "rounded-lg",
     "select-none",
-    "z-[1000]"
+    "z-[1000]",
+    "touch-manipulation", // Prevents mobile zoom and improves touch handling
+    "apple-container" // Base class for CSS targeting
   ];
+
+  // Add state-specific classes for CSS targeting
+  if (isSelected) {
+    innerClasses.push("selected");
+  }
+  if (isAnimating) {
+    innerClasses.push("animating");
+  }
+  if (fadeOut) {
+    innerClasses.push("fading");
+  }
 
   // Add fade-out animation class with higher priority
   if (fadeOut) {
@@ -71,6 +82,15 @@ const Apples = ({
     innerClasses.push("opacity-50");
   }
 
+  // Force remove any active state styling when selected or animating
+  if (isSelected || isAnimating || fadeOut) {
+    innerClasses.push(
+      "!bg-transparent",
+      "!border-transparent",
+      "!scale-100"
+    );
+  }
+
   const containerClasses = `${baseClasses.join(" ")} ${className}`.trim();
   const innerContainerClasses = innerClasses.join(" ");
 
@@ -80,6 +100,14 @@ const Apples = ({
         className={innerContainerClasses}
         onClick={handleClick}
         onMouseEnter={() => onHover && !isAnimating && onHover()}
+        onTouchEnd={(e) => {
+          // Force remove any active state on touch end for mobile
+          if (isSelected || isAnimating || fadeOut) {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.borderColor = 'transparent';
+            e.currentTarget.style.transform = 'scale(1)';
+          }
+        }}
         role={onClick ? "button" : undefined}
         tabIndex={onClick && !disabled && !isAnimating ? 0 : undefined}
         onKeyDown={(e) => {
