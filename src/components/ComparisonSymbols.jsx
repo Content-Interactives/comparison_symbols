@@ -242,7 +242,7 @@ const ComparisonSymbols = () => {
                         onSound={handleSoundClick}
                 >
                         <div className='text-center text-sm text-gray-500 p-5'>
-                                Comparison Alligator is hungry! Click the side with more apples to feed him. If you click the side with less apples, he will be sad.
+                                Comparison Alligator is hungry! Click the side with more apples to feed him. If you click the side with fewer apples, he will be sad.
                         </div>
 
                         {/* Alligator */}
