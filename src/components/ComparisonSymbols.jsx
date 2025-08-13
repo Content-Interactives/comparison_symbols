@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 
 // Audio Import
-import chipperSound from './Chipper 0.mp3';
+import chipperSound from './Chipper 8.mp3';
 
 // Hover detection system
 function watchForHover() {
